@@ -1,4 +1,4 @@
-echo "to add alias use command 'add alias_string command_to_execute_covered_with_inverted_commas'"
+echo "to add alias use command 'add alias_string command_to_execute'"
 echo "to remove alias use command 'rm alias_string'"
 echo "to list alias use command 'list'"
 echo "to close alias manager use command 'shoo'"
