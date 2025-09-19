@@ -6,7 +6,12 @@ then
         read alias_input command_input <<< "$line"
         if [[ -n "$alias_input" ]]
         then
-            eval "alias $alias_input='$command_input'"
+            if grep -q '$1' <<< "$command_input"
+            then
+                eval "$alias_input(){ $command_input }"
+            else
+                eval "alias $alias_input='$command_input'"
+            fi
         fi
     done < "$ALIAS_MANAGER_DIR/aliases"
 fi

@@ -10,11 +10,9 @@ fi
 if [ -n "$file_path" ]
 then
     ALIAS_MANAGER_DIR="$HOME/alias_manager"
-    if [[ ! -f "$ALIAS_MANAGER_DIR/add_alias_to_shell.sh" ]]
-    then
-        mkdir -p "$ALIAS_MANAGER_DIR"
-        cp ./add_alias_to_shell.sh "$ALIAS_MANAGER_DIR/add_alias_to_shell.sh"
-    fi
+    mkdir -p "$ALIAS_MANAGER_DIR"
+    cp ./add_alias_to_shell.sh "$ALIAS_MANAGER_DIR/add_alias_to_shell.sh"
+
     flag=0
     while IFS= read -r line
     do

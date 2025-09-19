@@ -44,7 +44,12 @@ do
         fi
         if [[ $flag == 0 ]]
         then
-            eval "alias $alias='$command'"
+            if grep -q '$1' <<< "$command"
+            then
+                eval "$alias(){ $command }"
+            else
+                eval "alias $alias='$command'"
+            fi
             echo "$alias $command">>"$ALIAS_MANAGER_DIR/aliases"
         else
             echo "alias already exists"
