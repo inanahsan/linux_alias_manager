@@ -1,7 +1,7 @@
 echo "to add alias use command 'add alias_string command_to_execute'"
 echo "to remove alias use command 'rm alias_string'"
 echo "to list alias use command 'list'"
-echo "to close alias manager use command 'shoo'"
+echo "to close alias manager use command 'close'"
 ALIAS_MANAGER_DIR="$HOME/alias_manager"
 while true
 do
@@ -56,20 +56,29 @@ do
         fi
     elif [[ $type == "rm" ]]
     then
-        mv "$ALIAS_MANAGER_DIR/aliases" "$ALIAS_MANAGER_DIR/backup_aliases"
         flag=0
-        while IFS= read -r line
-        do
-            read alias_input command_input <<< "$line"
-            if [[ $alias_input != $alias ]]
-            then
-                echo "$alias_input $command_input">>"$ALIAS_MANAGER_DIR/aliases"
-            else
-                flag=1
-                unalias $alias
-            fi
-        done < "$ALIAS_MANAGER_DIR/backup_aliases"
-        rm "$ALIAS_MANAGER_DIR/backup_aliases"
+        if [[ -f "$ALIAS_MANAGER_DIR/aliases" ]]
+        then
+            mv "$ALIAS_MANAGER_DIR/aliases" "$ALIAS_MANAGER_DIR/backup_aliases"
+            while IFS= read -r line
+            do
+                read alias_input command_input <<< "$line"
+                if [[ $alias_input != $alias ]]
+                then
+                    echo "$alias_input $command_input">>"$ALIAS_MANAGER_DIR/aliases"
+                else
+                    flag=1
+                    if alias $alias &> /dev/null
+                    then
+                        unalias $alias
+                    elif typeset -f $alias &> /dev/null
+                    then
+                        unset -f $alias
+                    fi
+                fi
+            done < "$ALIAS_MANAGER_DIR/backup_aliases"
+            rm "$ALIAS_MANAGER_DIR/backup_aliases"
+        fi
         if [[ $flag == 0 ]]
         then
             echo "alias not found"
@@ -82,7 +91,7 @@ do
         else
             echo "no aliases found"
         fi
-    elif [[ $type == "shoo" ]]
+    elif [[ $type == "close" ]]
     then
         break
     else
