@@ -9,7 +9,7 @@ do
     if [[ -z "$type" ]]
     then
         echo "task type is mandatory"
-    elif [[ "$type" != "add" && "$type" != "rm" && "$type" != "list" && "$type" != "shoo" ]]
+    elif [[ "$type" != "add" && "$type" != "rm" && "$type" != "list" && "$type" != "close" ]]
     then
         echo "Invalid task type"
     elif [[ "$type" == "add" && ( ( -z "$alias") || ( -z "$command" ) ) ]]
@@ -18,7 +18,7 @@ do
     elif [[ "$type" == "rm" && ( -z "$alias" ) ]]
     then
         echo "alias is necessary for rm command"
-    elif [[ ( ( "$type" == "list" || "$type" == "shoo" ) && ( -n "$alias" ) ) || ( "$type" == "rm" ) && ( -n "$command" ) ]]
+    elif [[ ( ( "$type" == "list" || "$type" == "close" ) && ( -n "$alias" ) ) || ( "$type" == "rm" ) && ( -n "$command" ) ]]
     then
         echo "too many arguments for command $type"
     elif [[ ( "$type" == "add" || "$type" == "rm" ) && ( "$alias" == *[[:space:]]* || "$alias" == *[!a-zA-Z0-9_] ) ]]
